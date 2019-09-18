@@ -60,7 +60,8 @@ func NewS3Client(opts S3ClientOpts) (S3Client, error) {
 			minioClient, err = minio.NewWithRegion(
 				s3cli.Endpoint, s3cli.AccessKey, s3cli.SecretKey, s3cli.Secure, s3cli.Region)
 		} else {
-			minioClient, err = minio.New(s3cli.Endpoint, s3cli.AccessKey, s3cli.SecretKey, s3cli.Secure)
+			log.Infof("Creating igz-overridden minio client with V2 signature", s3cli.Endpoint)
+			minioClient, err = minio.NewV2(s3cli.Endpoint, s3cli.AccessKey, s3cli.SecretKey, s3cli.Secure)
 		}
 	} else {
 		log.Infof("Creating minio client %s using IAM role", s3cli.Endpoint)
